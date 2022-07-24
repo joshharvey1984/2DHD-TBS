@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TBS.Grid.Debug;
 using UnityEngine;
 
 namespace TBS.Grid {
@@ -41,8 +42,18 @@ namespace TBS.Grid {
                     for (var h = 0; h < MapGrid.Instance.GetHeight(); h++) {
                         
                         var gridPosition = new GridPosition(x, z, h);
-                        var gridSystemVisualSingle = Instantiate(gridSystemVisualSinglePrefab, MapGrid.Instance.GetWorldPosition(gridPosition), gridSystemVisualSinglePrefab.transform.rotation);
-                        _gridSystemVisualSingleArray[x, z, h] = gridSystemVisualSingle.GetComponent<GridSystemVisualSingle>();
+                        var gridSystemVisualSingle = Instantiate(
+                            gridSystemVisualSinglePrefab, 
+                            MapGrid.Instance.GetWorldPosition(gridPosition), 
+                            gridSystemVisualSinglePrefab.transform.rotation);
+                        
+                        gridSystemVisualSingle.GetComponent<GridDebugObject>()
+                            .SetGridObject(MapGrid.Instance.GetGameTile(gridPosition));
+
+                        gridSystemVisualSingle.transform.parent = gameObject.transform;
+                        
+                        _gridSystemVisualSingleArray[x, z, h] = 
+                            gridSystemVisualSingle.GetComponent<GridSystemVisualSingle>();
                     }
                 }
             }
@@ -53,9 +64,7 @@ namespace TBS.Grid {
         }
 
         private void HideAllGridPosition() {
-            foreach (var gridSystemVisualSingle in _gridSystemVisualSingleArray) {
-                gridSystemVisualSingle.Hide();
-            }
+            foreach (var gridSystemVisualSingle in _gridSystemVisualSingleArray) { gridSystemVisualSingle.Hide(); }
         }
 
     }

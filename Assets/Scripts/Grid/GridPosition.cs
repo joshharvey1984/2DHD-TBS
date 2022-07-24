@@ -1,10 +1,10 @@
 using System;
 
 namespace TBS.Grid {
-    public struct GridPosition {
-        public int X;
-        public int Z;
-        public int Height;
+    public readonly struct GridPosition {
+        public readonly int X;
+        public readonly int Z;
+        public readonly int Height;
 
         public GridPosition(int x, int z, int height) {
             X = x;
@@ -20,7 +20,7 @@ namespace TBS.Grid {
 
         public bool Equals(GridPosition other) => this == other;
         public override int GetHashCode() => HashCode.Combine(X, Z, Height);
-        public override string ToString() => $"x: {X}; z: {Z}; Height: {Height}";
+        public override string ToString() => $"x: {X}; z: {Z}; h: {Height}";
 
         public static bool operator ==(GridPosition a, GridPosition b) {
             return a.X == b.X && a.Z == b.Z;

@@ -31,5 +31,7 @@ namespace TBS {
                 gridPosition.Z * gridDimensions.cellSize
             );
         }
+
+        public GameTile GetGameTile(GridPosition gridPosition) => _gridSystem.GetGridObject(gridPosition);
     }
 }

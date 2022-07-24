@@ -20,5 +20,8 @@ namespace TBS.Grid {
                 }
             }
         }
+        
+        public TGridObject GetGridObject(GridPosition gridPosition) => 
+            _gridObjects[gridPosition.X, gridPosition.Z, gridPosition.Height];
     }
 }
