@@ -1,3 +1,4 @@
+using System;
 using TBS.Grid;
 using UnityEngine;
 
@@ -20,18 +21,25 @@ namespace TBS {
             _gridSystem = new GridSystem<GameTile>(gridDimensions, position => new GameTile(position));
         }
 
+        private void Start() {
+            Pathfinding.Instance.Setup(gridDimensions);
+        }
+
         public int GetX() => gridDimensions.x;
         public int GetZ() => gridDimensions.z;
         public int GetHeight() => gridDimensions.height;
 
-        public Vector3 GetWorldPosition(GridPosition gridPosition) {
-            return new Vector3(
-                gridPosition.X * gridDimensions.cellSize,
-                gridPosition.Height * gridDimensions.cellHeightSize,
-                gridPosition.Z * gridDimensions.cellSize
-            );
-        }
-
+        public Vector3 GetWorldPosition(GridPosition gridPosition) => _gridSystem.GetWorldPosition(gridPosition);
         public GameTile GetGameTile(GridPosition gridPosition) => _gridSystem.GetGridObject(gridPosition);
+        public GridPosition GetGridPosition(Vector3 worldPosition) => _gridSystem.GetGridPosition(worldPosition);
+
+        public void AddUnitAtGridPosition(GridPosition gridPosition, Unit unit) => 
+            _gridSystem.GetGridObject(gridPosition).AddUnit(unit);
+
+        public bool IsValidGridPosition(GridPosition testGridPosition) => 
+            _gridSystem.IsValidGridPosition(testGridPosition);
+
+        public bool HasAnyUnitOnGridPosition(GridPosition testGridPosition) => 
+            _gridSystem.GetGridObject(testGridPosition).HasAnyUnit();
     }
 }

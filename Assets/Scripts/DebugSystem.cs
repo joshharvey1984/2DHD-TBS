@@ -1,12 +1,17 @@
 using TBS.Grid.Debug;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace TBS {
     public class DebugSystem : MonoBehaviour {
+        
         [SerializeField] private GameObject debugMenu;
 
+        private void Awake() {
+        }
+
         private void Update() {
-            if (Input.GetKeyUp(KeyCode.F12)) {
+            if (Keyboard.current.f12Key.wasPressedThisFrame) {
                 debugMenu.SetActive(!debugMenu.activeSelf);
             }
         }
