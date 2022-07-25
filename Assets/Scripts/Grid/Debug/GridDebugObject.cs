@@ -9,7 +9,8 @@ namespace TBS.Grid.Debug
         private object _gridObject;
         
         protected void Update() {
-            textMeshPro.text = _gridObject.ToString();
+            var gridText = _gridObject.ToString();
+            textMeshPro.text = gridText;
         }
         
         public virtual void SetGridObject(object gridObject) => _gridObject = gridObject;

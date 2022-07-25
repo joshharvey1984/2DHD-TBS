@@ -6,7 +6,7 @@ namespace TBS {
     public class UnitActionSystem : MonoBehaviour {
         public static UnitActionSystem Instance { get; private set; }
 
-        private Camera mainCamera;
+        private Camera _mainCamera;
         
         public event EventHandler OnSelectedUnitChanged;
         public event EventHandler OnSelectedActionChanged;
@@ -17,7 +17,7 @@ namespace TBS {
         [SerializeField] private Unit selectedUnit;
         [SerializeField] private LayerMask unitLayerMask;
 
-        private BaseAction selectedAction;
+        private BaseAction _selectedAction;
 
         private void Awake() {
             if (Instance != null) {
@@ -27,7 +27,7 @@ namespace TBS {
             }
             Instance = this;
             
-            mainCamera = Camera.main;
+            _mainCamera = Camera.main;
         }
 
         private void Update() {
@@ -39,7 +39,7 @@ namespace TBS {
         private bool TryHandleUnitSelection() {
             if (!InputManager.Instance.IsMouseButtonDownThisFrame()) return false;
             
-            var ray = mainCamera.ScreenPointToRay(InputManager.Instance.GetMouseScreenPosition());
+            var ray = _mainCamera.ScreenPointToRay(InputManager.Instance.GetMouseScreenPosition());
             if (!Physics.Raycast(ray, out var raycastHit, float.MaxValue, unitLayerMask)) return false;
             
             if (!raycastHit.transform.TryGetComponent(out Unit unit)) return false;
@@ -58,12 +58,12 @@ namespace TBS {
         }
 
         public void SetSelectedAction(BaseAction baseAction) {
-            selectedAction = baseAction;
+            _selectedAction = baseAction;
 
             OnSelectedActionChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public Unit GetSelectedUnit() => selectedUnit;
-        public BaseAction GetSelectedAction() => selectedAction;
+        public BaseAction GetSelectedAction() => _selectedAction;
     }
 }

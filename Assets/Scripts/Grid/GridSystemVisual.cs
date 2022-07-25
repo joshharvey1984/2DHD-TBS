@@ -45,9 +45,9 @@ namespace TBS.Grid {
                     for (var h = 0; h < MapGrid.Instance.GetHeight(); h++) {
                         
                         var gridPosition = new GridPosition(x, z, h);
-                        var gridVisual = Instantiate(
-                            gridVisualPrefab, 
-                            MapGrid.Instance.GetWorldPosition(gridPosition), 
+                        var instantiatePosition = MapGrid.Instance.GetWorldPosition(gridPosition);
+                        instantiatePosition.y += 0.025f;
+                        var gridVisual = Instantiate(gridVisualPrefab, instantiatePosition, 
                             gridVisualPrefab.transform.rotation);
                         
                         gridVisual.GetComponent<GridDebugObject>()
